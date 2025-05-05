@@ -1,0 +1,32 @@
+2025-05-05 19:30:59,861 - ERROR - activity_logger - ActivityException raised: [Errno 22] Invalid argument: 'D:\\ActivityP\\Activity_data\x07ctivity_data.csv' | Traceback: [Errno 22] Invalid argument: 'D:\\ActivityP\\Activity_data\x07ctivity_data.csv'
+Traceback (most recent call last):
+  File "D:\ActivityP\mongodb.py", line 31, in csv_to_json_converter
+    data=pd.read_csv(file_path)
+  File "D:\ActivityP\venv\lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "D:\ActivityP\venv\lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "D:\ActivityP\venv\lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "D:\ActivityP\venv\lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
+    self.handles = get_handle(
+  File "D:\ActivityP\venv\lib\site-packages\pandas\io\common.py", line 873, in get_handle
+    handle = open(
+OSError: [Errno 22] Invalid argument: 'D:\\ActivityP\\Activity_data\x07ctivity_data.csv'
+2025-05-05 19:34:24,077 - ERROR - activity_logger - ActivityException raised: 'DataFrame' object has no attribute 'reset' | Traceback: 'DataFrame' object has no attribute 'reset'
+Traceback (most recent call last):
+  File "D:\ActivityP\mongodb.py", line 32, in csv_to_json_converter
+    data.reset.index(drop=True,inplace=True)
+  File "D:\ActivityP\venv\lib\site-packages\pandas\core\generic.py", line 6299, in __getattr__
+    return object.__getattribute__(self, name)
+AttributeError: 'DataFrame' object has no attribute 'reset'
+2025-05-05 19:36:16,804 - ERROR - activity_logger - ActivityException raised: 'dict' object has no attribute 'value' | Traceback: 'dict' object has no attribute 'value'
+Traceback (most recent call last):
+  File "D:\ActivityP\mongodb.py", line 33, in csv_to_json_converter
+    records=list(json.loads(data.T.to_json()).value())
+AttributeError: 'dict' object has no attribute 'value'
+2025-05-05 19:38:55,687 - ERROR - activity_logger - ActivityException raised: 'dict' object has no attribute 'value' | File: D:\ActivityP\mongodb.py, Line: 33, Type: AttributeError
+Traceback (most recent call last):
+  File "D:\ActivityP\mongodb.py", line 33, in csv_to_json_converter
+    records=list(json.loads(data.T.to_json()).value())
+AttributeError: 'dict' object has no attribute 'value'

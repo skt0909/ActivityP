@@ -3,8 +3,7 @@ from typing import List
 
 def get_requirements()->List[str]:
     """
-    Thiss function will return list of requirements
-    
+    This function will return list of requirements
     """
     requirement_lst:List[str]=[]
     try:
