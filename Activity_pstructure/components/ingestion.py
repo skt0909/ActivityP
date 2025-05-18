@@ -6,6 +6,7 @@ from logging import getLogger
 from Activity_pstructure.logging.logger import logger
 from Activity_pstructure.exception.exception import ActivityException
 from Activity_pstructure.entity.config_entity import MongoDBConfig
+from Activity_pstructure.utils.common_utils import save_dataframe
 
 logger = getLogger("activity_logger")
 
@@ -35,15 +36,5 @@ class DataIngestion:
             raise ActivityException(e, sys)
 
     def save_dataframe_to_artifacts(self, df: pd.DataFrame, output_dir: str, output_filename: str):
-        try:
-            os.makedirs(output_dir, exist_ok=True)
-            file_path = os.path.join(output_dir, output_filename)
-
-            df.to_csv(file_path, index=False)
-            logger.info(f"DataFrame saved to {file_path}")
-
-        except Exception as e:
-            logger.error(f"Failed to save DataFrame: {e}")
-            raise ActivityException(e, sys)
-    
+        save_dataframe(df, output_dir, output_filename, logger=logger)
  
