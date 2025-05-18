@@ -3,7 +3,9 @@ pandas
 numpy 
 pymongo
 certifi
-
+scipy
+matplotlib
+seaborn
 
 
 
