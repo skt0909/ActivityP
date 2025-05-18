@@ -1,0 +1,2 @@
+DATABASE_NAME = "SKT"
+COLLECTION_NAME = "ActivityData"

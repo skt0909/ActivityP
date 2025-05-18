@@ -1,32 +1,88 @@
-2025-05-05 19:30:59,861 - ERROR - activity_logger - ActivityException raised: [Errno 22] Invalid argument: 'D:\\ActivityP\\Activity_data\x07ctivity_data.csv' | Traceback: [Errno 22] Invalid argument: 'D:\\ActivityP\\Activity_data\x07ctivity_data.csv'
+2025-05-12 09:52:31,233 - INFO - activity_logger - Starting data retrieval from MongoDB Atlas...
+2025-05-12 09:52:32,966 - INFO - activity_logger - Retrieved 940 records from MongoDB.
+2025-05-12 10:57:27,001 - INFO - activity_logger - Starting data retrieval from MongoDB Atlas...
+2025-05-12 10:57:57,238 - ERROR - activity_logger - ActivityException raised: mongo_db_url:27017: [Errno 11001] getaddrinfo failed (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 6821c607c32eae97d69d1912, topology_type: Unknown, servers: [<ServerDescription ('mongo_db_url', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('mongo_db_url:27017: [Errno 11001] getaddrinfo failed (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]> | File: D:\ActivityP\Activity_pstructure\components\ingestion.py, Line: 28, Type: ServerSelectionTimeoutError
 Traceback (most recent call last):
-  File "D:\ActivityP\mongodb.py", line 31, in csv_to_json_converter
-    data=pd.read_csv(file_path)
-  File "D:\ActivityP\venv\lib\site-packages\pandas\io\parsers\readers.py", line 1026, in read_csv
-    return _read(filepath_or_buffer, kwds)
-  File "D:\ActivityP\venv\lib\site-packages\pandas\io\parsers\readers.py", line 620, in _read
-    parser = TextFileReader(filepath_or_buffer, **kwds)
-  File "D:\ActivityP\venv\lib\site-packages\pandas\io\parsers\readers.py", line 1620, in __init__
-    self._engine = self._make_engine(f, self.engine)
-  File "D:\ActivityP\venv\lib\site-packages\pandas\io\parsers\readers.py", line 1880, in _make_engine
-    self.handles = get_handle(
-  File "D:\ActivityP\venv\lib\site-packages\pandas\io\common.py", line 873, in get_handle
-    handle = open(
-OSError: [Errno 22] Invalid argument: 'D:\\ActivityP\\Activity_data\x07ctivity_data.csv'
-2025-05-05 19:34:24,077 - ERROR - activity_logger - ActivityException raised: 'DataFrame' object has no attribute 'reset' | Traceback: 'DataFrame' object has no attribute 'reset'
+  File "D:\ActivityP\Activity_pstructure\components\ingestion.py", line 28, in fetch_data_from_mongodb
+    data = list(cursor)
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\cursor.py", line 1284, in __next__
+    return self.next()
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\cursor.py", line 1260, in next
+    if len(self._data) or self._refresh():
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\cursor.py", line 1208, in _refresh
+    self._send_message(q)
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\cursor.py", line 1102, in _send_message
+    response = client._run_operation(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\_csot.py", line 119, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 1917, in _run_operation
+    return self._retryable_read(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 2026, in _retryable_read
+    return self._retry_internal(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\_csot.py", line 119, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 1993, in _retry_internal
+    ).run()
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 2730, in run
+    return self._read() if self._is_read else self._write()
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 2875, in _read
+    self._server = self._get_server()
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 2823, in _get_server
+    return self._client._select_server(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 1812, in _select_server
+    server = topology.select_server(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\topology.py", line 409, in select_server
+    server = self._select_server(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\topology.py", line 387, in _select_server
+    servers = self.select_servers(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\topology.py", line 294, in select_servers
+    server_descriptions = self._select_servers_loop(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\topology.py", line 344, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: mongo_db_url:27017: [Errno 11001] getaddrinfo failed (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 6821c607c32eae97d69d1912, topology_type: Unknown, servers: [<ServerDescription ('mongo_db_url', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('mongo_db_url:27017: [Errno 11001] getaddrinfo failed (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-05-12 11:00:10,661 - INFO - activity_logger - Starting data retrieval from MongoDB Atlas...
+2025-05-12 11:00:40,839 - ERROR - activity_logger - ActivityException raised: mongo_db_url:27017: [Errno 11001] getaddrinfo failed (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 6821c6aaca5f4abc7c4fb5dd, topology_type: Unknown, servers: [<ServerDescription ('mongo_db_url', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('mongo_db_url:27017: [Errno 11001] getaddrinfo failed (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]> | File: D:\ActivityP\Activity_pstructure\components\ingestion.py, Line: 28, Type: ServerSelectionTimeoutError
 Traceback (most recent call last):
-  File "D:\ActivityP\mongodb.py", line 32, in csv_to_json_converter
-    data.reset.index(drop=True,inplace=True)
-  File "D:\ActivityP\venv\lib\site-packages\pandas\core\generic.py", line 6299, in __getattr__
-    return object.__getattribute__(self, name)
-AttributeError: 'DataFrame' object has no attribute 'reset'
-2025-05-05 19:36:16,804 - ERROR - activity_logger - ActivityException raised: 'dict' object has no attribute 'value' | Traceback: 'dict' object has no attribute 'value'
-Traceback (most recent call last):
-  File "D:\ActivityP\mongodb.py", line 33, in csv_to_json_converter
-    records=list(json.loads(data.T.to_json()).value())
-AttributeError: 'dict' object has no attribute 'value'
-2025-05-05 19:38:55,687 - ERROR - activity_logger - ActivityException raised: 'dict' object has no attribute 'value' | File: D:\ActivityP\mongodb.py, Line: 33, Type: AttributeError
-Traceback (most recent call last):
-  File "D:\ActivityP\mongodb.py", line 33, in csv_to_json_converter
-    records=list(json.loads(data.T.to_json()).value())
-AttributeError: 'dict' object has no attribute 'value'
+  File "D:\ActivityP\Activity_pstructure\components\ingestion.py", line 28, in fetch_data_from_mongodb
+    data = list(cursor)
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\cursor.py", line 1284, in __next__
+    return self.next()
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\cursor.py", line 1260, in next
+    if len(self._data) or self._refresh():
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\cursor.py", line 1208, in _refresh
+    self._send_message(q)
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\cursor.py", line 1102, in _send_message
+    response = client._run_operation(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\_csot.py", line 119, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 1917, in _run_operation
+    return self._retryable_read(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 2026, in _retryable_read
+    return self._retry_internal(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\_csot.py", line 119, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 1993, in _retry_internal
+    ).run()
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 2730, in run
+    return self._read() if self._is_read else self._write()
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 2875, in _read
+    self._server = self._get_server()
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 2823, in _get_server
+    return self._client._select_server(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\mongo_client.py", line 1812, in _select_server
+    server = topology.select_server(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\topology.py", line 409, in select_server
+    server = self._select_server(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\topology.py", line 387, in _select_server
+    servers = self.select_servers(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\topology.py", line 294, in select_servers
+    server_descriptions = self._select_servers_loop(
+  File "D:\ActivityP\venv\lib\site-packages\pymongo\synchronous\topology.py", line 344, in _select_servers_loop
+    raise ServerSelectionTimeoutError(
+pymongo.errors.ServerSelectionTimeoutError: mongo_db_url:27017: [Errno 11001] getaddrinfo failed (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 6821c6aaca5f4abc7c4fb5dd, topology_type: Unknown, servers: [<ServerDescription ('mongo_db_url', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('mongo_db_url:27017: [Errno 11001] getaddrinfo failed (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+2025-05-12 11:38:27,948 - INFO - activity_logger - Starting data retrieval from MongoDB Atlas...
+2025-05-12 11:38:33,715 - INFO - activity_logger - Retrieved 940 records from MongoDB.
+2025-05-12 11:38:33,859 - INFO - activity_logger - DataFrame saved to artifacts\activity_data.csv
+2025-05-12 11:41:37,926 - INFO - activity_logger - Starting data retrieval from MongoDB Atlas...
+2025-05-12 11:41:38,816 - INFO - activity_logger - Retrieved 940 records from MongoDB.
+2025-05-12 11:41:38,857 - INFO - activity_logger - DataFrame saved to artifacts\activity_data.csv
