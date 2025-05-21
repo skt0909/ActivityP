@@ -6,7 +6,7 @@ certifi
 scipy
 matplotlib
 seaborn
-
+scikit-learn 
 
 
 #-e.

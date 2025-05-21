@@ -1,10 +1,12 @@
 import os
+import pandas as pd 
 from pymongo.mongo_client  import MongoClient
 from logging import getLogger
 from Activity_pstructure.logging.logger import logger
 from Activity_pstructure.entity.config_entity import MongoDBConfig
-from Activity_pstructure.constant.database import DATABASE_NAME, COLLECTION_NAME
+from Activity_pstructure.constant.database import DATABASE_NAME, COLLECTION_NAME, PREPROCESSED_DATA_PATH
 from Activity_pstructure.components.ingestion import DataIngestion
+from Activity_pstructure.components.transformation import transform_and_save_data
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -31,3 +33,13 @@ if __name__ == "__main__":
 
     except Exception as e:
         print(f"An error occurred during ingestion: {e}")
+
+    try:
+        df = pd.read_csv(PREPROCESSED_DATA_PATH)
+        artifact = transform_and_save_data(df, target_column="Calories")
+        print("Data transformation complete.")
+
+    except Exception as e:
+        print(f"Error during transformation: {e}")
+
+
