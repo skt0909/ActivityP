@@ -15,8 +15,14 @@ def save_dataframe(df: pd.DataFrame, output_dir: str, output_filename: str, logg
         return file_path
     except Exception as e:
         raise Exception(f"Failed to save DataFrame: {e}")
+    
 
 def save_object(obj, file_path: str):
     os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, "wb") as file_obj:
         pickle.dump(obj, file_obj)
+        
+
+def load_object(file_path: str):
+    with open(file_path, "rb") as file_obj:
+        return pickle.load(file_obj)
