@@ -30,14 +30,11 @@ if __name__ == "__main__":
         collection_name= COLLECTION_NAME
     ) 
 
+
     try:
         ingestion = DataIngestion(config)
-        df = ingestion.fetch_data_from_mongodb()
-        ingestion.save_dataframe_to_artifacts(
-            df,
-            output_dir=config.output_dir,
-            output_filename=config.output_filename
-        )
+        artifact = ingestion.initiate_data_ingestion()
+
         print("Data ingestion complete.")
 
     except Exception as e:

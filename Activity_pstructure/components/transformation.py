@@ -8,7 +8,6 @@ from Activity_pstructure.entity.config_entity import DataTransformationArtifact
 from Activity_pstructure.utils.common_utils import save_object
 from Activity_pstructure.logging.logger import logger
 from Activity_pstructure.exception.exception import ActivityException
-
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder
 from sklearn.compose import ColumnTransformer

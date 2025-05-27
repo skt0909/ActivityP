@@ -1,4 +1,11 @@
 from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class MongoDBArtifact:
+    output_file_path: str
+    record_count: int
+    extraction_timestamp: str
 
 @dataclass
 class MongoDBConfig:
@@ -15,6 +22,7 @@ class DataTransformationArtifact:
     y_train_path: str
     y_test_path: str
     transformer_path: str  
+
 
 @dataclass
 class ModelTrainerConfig:

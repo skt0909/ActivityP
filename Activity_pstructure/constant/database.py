@@ -1,3 +1,4 @@
+
 DATABASE_NAME = "SKT"
 COLLECTION_NAME = "ActivityData"
 
@@ -10,3 +11,4 @@ Y_TEST_PATH = r"artifacts/transformed/y_test.pkl"
 TRANSFORMER_PATH = r"artifacts/transformed/transformer.pkl"
 
 BEST_MODEL_PATH = r"artifacts/model/model.pkl"
+
