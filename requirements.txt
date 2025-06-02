@@ -10,5 +10,8 @@ scikit-learn
 pyaml
 dagshub
 mlflow
+streamlit 
+joblib
+plotly
 
 #-e.

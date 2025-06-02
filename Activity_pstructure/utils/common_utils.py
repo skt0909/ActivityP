@@ -26,3 +26,5 @@ def save_object(obj, file_path: str):
 def load_object(file_path: str):
     with open(file_path, "rb") as file_obj:
         return pickle.load(file_obj)
+    
+    
