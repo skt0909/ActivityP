@@ -77,4 +77,4 @@ Others: Docker (in process)
 ![Roadmap] (Data Flow Diagram.png)
 
 ## 📸 Output
-![Output]
+![Output] (https://github.com/skt0909/ActivityP/issues/1#issue-3178777684)
