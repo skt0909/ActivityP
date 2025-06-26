@@ -1,7 +1,7 @@
 # ⌚ Smart Health Recommender System
 
 > A project that integrates smartwatch API data to provide personalized recommendations on physical activity, diet, and sleep quality, rated on a 10-point scale.
-<img src = Watch.PNG>
+<img src = Swatch.JPG>
 
 ---
 
