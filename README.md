@@ -74,7 +74,7 @@ Orchestration: Apache Airflow (in process)
 Others: Docker (in process)
 
 # 🛣 Roadmap
-![Roadmap](D:\ActivityP\Screenshots\Data Flow Diagram.png)
+![Roadmap] 
 
 ## 📸 Output
-![Output Screenshot](D:\ActivityP\Screenshots\Dashboard.PNG)
+![Output]
