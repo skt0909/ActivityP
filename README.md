@@ -77,4 +77,4 @@ Others: Docker (in process)
 ![Roadmap] (Data Flow Diagram.png)
 
 ## 📸 Output
-![image alt] (https://github.com/skt0909/ActivityP/blob/374c044ef8da26400148d690b7dd24900b1bce17/Dashboard.PNG)
+<img src = Dashboard.PNG>
