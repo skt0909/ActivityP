@@ -74,7 +74,7 @@ Orchestration: Apache Airflow (in process)
 Others: Docker (in process)
 
 # 🛣 Roadmap
-<imh src = Data Flow Diagram.png>
+<img src = Data_Diagram.PNG>
 
 ## 📸 Output
 <img src = Dashboard.PNG>
