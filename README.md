@@ -75,7 +75,5 @@ Orchestration: Apache Airflow (in process)
 Others: Docker (in process)
 
 # 🛣 Roadmap
-<img src = Data_Diagram.PNG>
+![Roadmap](Data_Diagram.PNG)`r`n`r`n## 📸 Output`r`n![Output](Dashboard.PNG)
 
-## 📸 Output
-<img src = Dashboard.PNG>
