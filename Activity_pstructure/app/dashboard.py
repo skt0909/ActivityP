@@ -55,20 +55,30 @@ with col1:
 # 🥗 Diet Completion Donut
 with col2:
     avg_completion = df["diet_completion"].mean()
+
     fig2 = go.Figure(go.Pie(
-    values=[avg_completion, 100 - avg_completion],
-    labels=["Completed", "Recommended"],
-    hole=0.4,
-    marker_colors=["#0096c7", "#FF4136"],
-    textinfo="label",  # Remove all text labels from slices
-    showlegend=False  # Remove legend
+        values=[avg_completion, 100 - avg_completion],
+        labels=["Completed", "Recommended"],
+        hole=0.4,
+        marker_colors=["#0096c7", "#FF4136"],
+        textinfo="label",       # Show only labels, not percentages
+        hoverinfo="label+percent",  # Optional: show info on hover
+        showlegend=False
     ))
+
     fig2.update_layout(
-    title_text="<b>Average Diet Completion</b>",
-    height=450,
+        title={
+        'text': "<b>Average Diet Completion</b>",
+        'x': 0.1,          # Move horizontally: 0 = left, 0.5 = center, 1 = right
+        'y': 0.75,         # Move vertically: 0 = bottom, 1 = top
+        'xanchor': 'left', # Align the title to the left of the x position
+        'yanchor': 'top'   # Align the title to the top of the y position
+    },
+    height=400,
     margin=dict(t=50, b=20, l=20, r=20),
-    showlegend=False  # Ensure legend is removed from layout as well
+    showlegend=False
     )
+
     st.plotly_chart(fig2, use_container_width=True)
 
 # 😴 Sleep Quality Gauge

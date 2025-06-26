@@ -13,7 +13,6 @@
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
 - [Roadmap](#roadmap)
-- [License](#license)
 - [Contact](#contact)
 
 ---
@@ -49,7 +48,7 @@ Many users track fitness data but struggle to interpret or use it meaningfully. 
 - matplotlib, seaborn, plotly
 - pymongo, certifi
 - mlflow, dagshub, joblib
-- flask, streamlit (planned)
+- streamlit 
 
 ---
 # 🚀 Usage
@@ -58,11 +57,11 @@ python dashboard.py
 # 🛠 Technologies Used
 Languages: Python
 
-Frameworks: Flask (dashboard), Streamlit (planned)
+Frameworks: Flask (planned), Streamlit (dashboard)
 
 Libraries: Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn, Plotly
 
-Database: MongoDB
+Database: MongoDB Atlas
 
 Experiment Tracking: MLflow
 
@@ -70,8 +69,12 @@ Version Control & Hosting: Git, GitHub
 
 Automation & CI/CD: GitHub Actions (planned)
 
-Orchestration: Apache Airflow (planned)
+Orchestration: Apache Airflow (in process)
 
-Others: DagsHub, Docker (in progress)
+Others: Docker (in process)
 
 # 🛣 Roadmap
+![Roadmap](D:\ActivityP\Screenshots\Data Flow Diagram.png)
+
+## 📸 Output
+![Output Screenshot](D:\ActivityP\Screenshots\Dashboard.PNG)
