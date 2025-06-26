@@ -74,7 +74,7 @@ Orchestration: Apache Airflow (in process)
 Others: Docker (in process)
 
 # 🛣 Roadmap
-![Roadmap] 
+![Roadmap] (Data Flow Diagram.png)
 
 ## 📸 Output
 ![Output]
