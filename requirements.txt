@@ -13,5 +13,6 @@ mlflow
 streamlit 
 joblib
 plotly
-
-#-e.
+pendulum
+pytest
+airflow
