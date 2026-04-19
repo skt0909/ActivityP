@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+import sklearn
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
@@ -172,7 +173,19 @@ steps = st.sidebar.slider("Daily Steps", 0, 20000, 8000, help="Check your smartw
 heart_rate = st.sidebar.slider("Heart Rate (bpm)", 40, 140, 75, help="Use your current or resting heart rate")
 sleep_hours = st.sidebar.slider("Sleep Hours", 0, 12, 7, help="Enter last night's sleep duration")
 
-transformer, model = load_artifacts()
+try:
+    transformer, model = load_artifacts()
+except AttributeError as exc:
+    if "_RemainderColsList" in str(exc):
+        st.error(
+            "Model artifact/scikit-learn version mismatch. "
+            "The saved transformer expects scikit-learn 1.6.1."
+        )
+        st.code(f"Runtime scikit-learn version: {sklearn.__version__}")
+        st.info("Pin `scikit-learn==1.6.1` in requirements and trigger a full app reboot.")
+        st.stop()
+    raise
+
 features = build_features(age, steps, heart_rate, sleep_hours, calories)
 transformed = transform_data(features, transformer)
 predicted_calories = float(make_predictions(transformed, model)[0])
