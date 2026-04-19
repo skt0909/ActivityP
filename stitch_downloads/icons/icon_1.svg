@@ -1,0 +1,10 @@
+<svg class="absolute bottom-0 left-0 w-full h-full" preserveaspectratio="none" viewbox="0 0 400 100">
+<defs>
+<lineargradient id="waveGradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#6bfe9c; stop-opacity:0.2"></stop>
+<stop offset="100%" style="stop-color:#6bfe9c; stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+<path d="M0 80 C 50 70, 100 90, 150 80 C 200 70, 250 40, 300 50 C 350 60, 400 30, 450 40 L 450 100 L 0 100 Z" fill="url(#waveGradient)"></path>
+<path d="M0 80 C 50 70, 100 90, 150 80 C 200 70, 250 40, 300 50 C 350 60, 400 30, 450 40" fill="none" stroke="#6bfe9c" stroke-width="3"></path>
+</svg>
