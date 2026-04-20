@@ -1,0 +1,132 @@
+:root {
+  --bg-primary: #0b0e14;
+  --bg-surface: #10131a;
+  --bg-surface-container: #161a21;
+  --color-primary: #73ffe3;
+  --color-primary-dim: #00e8c9;
+  --color-text: #ecedf6;
+  --color-text-muted: #a9abb3;
+  --color-border: #45484f;
+  --color-tertiary: #6bfe9c;
+  --color-secondary: #ff6e85;
+
+  --sans: 'Manrope', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: 'Manrope', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 16px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: dark;
+  color: var(--color-text);
+  background: var(--bg-primary);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-primary);
+  overflow-x: hidden;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--heading);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: 48px;
+  letter-spacing: -0.5px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+p {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg-surface-container);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  cursor: pointer;
+  border: none;
+}
+
+select {
+  background-color: var(--bg-surface-container);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-family: var(--sans);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button {
+  background-color: var(--color-primary);
+  color: #006152;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+button:hover {
+  background-color: var(--color-primary-dim);
+}
+
+button:active {
+  transform: scale(0.95);
+}
