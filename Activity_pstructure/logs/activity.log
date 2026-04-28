@@ -1,0 +1,26 @@
+2026-04-29 00:14:09,545 - INFO - dagshub.auth.tokens - Removed expired tokens from the token cache
+2026-04-29 00:15:35,643 - INFO - activity_logger - Starting data retrieval from MongoDB Atlas...
+2026-04-29 00:15:37,630 - INFO - activity_logger - Retrieved 940 records from MongoDB.
+2026-04-29 00:15:37,658 - INFO - activity_logger - DataFrame saved to artifacts\activity_data.csv
+2026-04-29 00:15:37,658 - INFO - activity_logger - MongoDB ingestion completed. Artifact: MongoDBArtifact(output_file_path=None, record_count=940, extraction_timestamp='2026-04-29T00:15:37.658424')
+2026-04-29 00:15:37,687 - INFO - activity_logger - Starting transformation pipeline
+2026-04-29 00:15:37,698 - INFO - activity_logger - Dropped 'Calories_norm
+2026-04-29 00:15:37,716 - INFO - activity_logger - Splitting dataset into train and test
+2026-04-29 00:15:37,723 - INFO - activity_logger -  Numerical: ['TotalSteps', 'TotalDistance', 'TrackerDistance', 'VeryActiveDistance', 'ModeratelyActiveDistance', 'LightActiveDistance', 'SedentaryActiveDistance', 'VeryActiveMinutes', 'FairlyActiveMinutes', 'LightlyActiveMinutes', 'SedentaryMinutes', 'StepsPerMinute', 'DistancePerStep', 'VeryActiveRatio', 'SedentaryRatio', 'ActiveMinutesTotal', 'ActivityScore', 'EffectiveActiveTime', 'Age', 'VeryActiveDistance_norm', 'ModeratelyActiveDistance_norm', 'SedentaryActiveDistance_norm', 'VeryActiveMinutes_norm', 'FairlyActiveMinutes_norm', 'StepsPerMinute_norm', 'DistancePerStep_norm', 'VeryActiveRatio_norm']
+2026-04-29 00:15:37,723 - INFO - activity_logger -  One-hot: ['Gender']
+2026-04-29 00:15:37,723 - INFO - activity_logger - Ordinal: ['ActivityLevel']
+2026-04-29 00:15:37,723 - INFO - activity_logger - Fitting transformer on training data
+2026-04-29 00:15:37,734 - INFO - activity_logger - Saving transformed datasets and pipeline
+2026-04-29 00:15:37,768 - INFO - activity_logger - Data transformation complete and saved.
+2026-04-29 00:15:37,768 - INFO - activity_logger - Loading transformed data
+2026-04-29 00:15:37,813 - INFO - activity_logger - Starting model training with hyperparameter tuning
+2026-04-29 00:15:37,813 - INFO - activity_logger - Training LinearRegression
+2026-04-29 00:15:37,837 - INFO - activity_logger - LinearRegression R2 Test Score: 0.6849310521179055
+2026-04-29 00:17:26,245 - INFO - activity_logger - Training RandomForestRegressor
+2026-04-29 00:17:35,017 - INFO - activity_logger - Best params for RandomForestRegressor: {'n_estimators': 200, 'min_samples_split': 2, 'max_depth': 10}
+2026-04-29 00:17:36,379 - INFO - activity_logger - RandomForestRegressor R2 Test Score: 0.7626091360842788
+2026-04-29 00:17:47,460 - INFO - activity_logger - Training GradientBoostingRegressor
+2026-04-29 00:17:50,947 - INFO - activity_logger - Best params for GradientBoostingRegressor: {'n_estimators': 100, 'max_depth': 5, 'learning_rate': 0.1}
+2026-04-29 00:17:51,501 - INFO - activity_logger - GradientBoostingRegressor R2 Test Score: 0.8084414342282571
+2026-04-29 00:18:02,615 - INFO - activity_logger - Best Model: GradientBoostingRegressor (R2: 0.8084414342282571)
+2026-04-29 00:18:02,615 - INFO - activity_logger - Model saved at: artifacts/model/model.pkl
