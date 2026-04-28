@@ -24,3 +24,28 @@
 2026-04-29 00:17:51,501 - INFO - activity_logger - GradientBoostingRegressor R2 Test Score: 0.8084414342282571
 2026-04-29 00:18:02,615 - INFO - activity_logger - Best Model: GradientBoostingRegressor (R2: 0.8084414342282571)
 2026-04-29 00:18:02,615 - INFO - activity_logger - Model saved at: artifacts/model/model.pkl
+2026-04-29 00:30:35,063 - INFO - activity_logger - Starting data retrieval from MongoDB Atlas...
+2026-04-29 00:30:36,088 - INFO - activity_logger - Retrieved 940 records from MongoDB.
+2026-04-29 00:30:36,101 - INFO - activity_logger - DataFrame saved to artifacts\activity_data.csv
+2026-04-29 00:30:36,101 - INFO - activity_logger - MongoDB ingestion completed. Artifact: MongoDBArtifact(output_file_path=None, record_count=940, extraction_timestamp='2026-04-29T00:30:36.101306')
+2026-04-29 00:30:36,144 - INFO - activity_logger - Starting transformation pipeline
+2026-04-29 00:30:36,158 - INFO - activity_logger - Dropped 'Calories_norm
+2026-04-29 00:30:36,158 - INFO - activity_logger - Splitting dataset into train and test
+2026-04-29 00:30:36,166 - INFO - activity_logger -  Numerical: ['TotalSteps', 'TotalDistance', 'TrackerDistance', 'VeryActiveDistance', 'ModeratelyActiveDistance', 'LightActiveDistance', 'SedentaryActiveDistance', 'VeryActiveMinutes', 'FairlyActiveMinutes', 'LightlyActiveMinutes', 'SedentaryMinutes', 'StepsPerMinute', 'DistancePerStep', 'VeryActiveRatio', 'SedentaryRatio', 'ActiveMinutesTotal', 'ActivityScore', 'EffectiveActiveTime', 'Age', 'VeryActiveDistance_norm', 'ModeratelyActiveDistance_norm', 'SedentaryActiveDistance_norm', 'VeryActiveMinutes_norm', 'FairlyActiveMinutes_norm', 'StepsPerMinute_norm', 'DistancePerStep_norm', 'VeryActiveRatio_norm']
+2026-04-29 00:30:36,166 - INFO - activity_logger -  One-hot: ['Gender']
+2026-04-29 00:30:36,166 - INFO - activity_logger - Ordinal: ['ActivityLevel']
+2026-04-29 00:30:36,166 - INFO - activity_logger - Fitting transformer on training data
+2026-04-29 00:30:36,177 - INFO - activity_logger - Saving transformed datasets and pipeline
+2026-04-29 00:30:36,180 - INFO - activity_logger - Data transformation complete and saved.
+2026-04-29 00:30:36,180 - INFO - activity_logger - Loading transformed data
+2026-04-29 00:30:36,231 - INFO - activity_logger - Starting model training with hyperparameter tuning
+2026-04-29 00:30:36,231 - INFO - activity_logger - Training LinearRegression
+2026-04-29 00:30:36,238 - INFO - activity_logger - LinearRegression R2 Test Score: 0.6849310521179055
+2026-04-29 00:30:58,750 - INFO - activity_logger - Training RandomForestRegressor
+2026-04-29 00:32:06,001 - INFO - activity_logger - Best params for RandomForestRegressor: {'n_estimators': 200, 'min_samples_split': 2, 'max_depth': 10}
+2026-04-29 00:32:08,127 - INFO - activity_logger - RandomForestRegressor R2 Test Score: 0.7626091360842788
+2026-04-29 00:33:09,090 - INFO - activity_logger - Training GradientBoostingRegressor
+2026-04-29 00:33:12,945 - INFO - activity_logger - Best params for GradientBoostingRegressor: {'n_estimators': 100, 'max_depth': 5, 'learning_rate': 0.1}
+2026-04-29 00:33:13,508 - INFO - activity_logger - GradientBoostingRegressor R2 Test Score: 0.8084414342282571
+2026-04-29 00:33:52,484 - INFO - activity_logger - Best Model: GradientBoostingRegressor (R2: 0.8084414342282571)
+2026-04-29 00:33:52,485 - INFO - activity_logger - Model saved at: artifacts/model/model.pkl
