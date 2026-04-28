@@ -1,5 +1,7 @@
 flask
 flask-cors
+flask-limiter
 pandas
 scikit-learn
 numpy
+gunicorn

@@ -9,6 +9,8 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from Activity_pstructure.utils.inference_utils import (
     load_model,
     load_transformer,
@@ -17,7 +19,18 @@ from Activity_pstructure.utils.inference_utils import (
 )
 
 app = Flask(__name__)
-CORS(app)
+
+# Configure CORS based on environment
+allowed_origins = os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000').split(',')
+CORS(app, origins=allowed_origins, supports_credentials=True)
+
+# Configure rate limiting: 100 requests per hour per IP
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["100 per hour"],
+    storage_uri="memory://"
+)
 
 # Load model and transformer once at startup
 MODEL_PATH = Path(__file__).parent.parent / 'model' / 'model.pkl'
@@ -192,6 +205,7 @@ def build_recommendations(activity_score, sleep_rating, diet_completion):
 
 
 @app.route('/predict', methods=['POST'])
+@limiter.limit("100 per hour")
 def predict():
     """Predict calories and compute health metrics + dynamic recommendations."""
     try:
