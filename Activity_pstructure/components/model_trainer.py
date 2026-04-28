@@ -16,9 +16,9 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 import mlflow
 from mlflow.models.signature import infer_signature
-import dagshub
-
-dagshub.init(repo_owner='skt0909', repo_name='ActivityP', mlflow=True)
+# import dagshub
+# Commented out for deployment — dagshub not needed for inference
+# dagshub.init(repo_owner='skt0909', repo_name='ActivityP', mlflow=True)
 
 
 

@@ -10,3 +10,8 @@ airflow-webserver.pid
 webserver_config.py
 airflow.cfg
 airflow.db
+mlruns/
+artifacts/
+mlflow.db
+.pytest_cache/
+*.egg-info/
