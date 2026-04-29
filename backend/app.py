@@ -435,7 +435,14 @@ def predict():
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    # Get PORT from environment, with fallback and validation
+    port_str = os.environ.get('PORT', '5000').strip()
+    try:
+        port = int(port_str)
+    except (ValueError, TypeError):
+        print(f"[WARNING] Invalid PORT value '{port_str}', using default 5000")
+        port = 5000
+
     print(f"[startup] Flask app starting on port {port}")
     print(f"[startup] Flask app object: {app}")
     print(f"[startup] Registered routes:")
