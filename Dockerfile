@@ -28,5 +28,5 @@ ENV PYTHONUNBUFFERED=1
 ENV FLASK_ENV=production
 ENV PORT=5000
 
-# Start the application
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "--timeout", "120", "backend.app:app"]
+# Start the application using Python directly (reads PORT from env)
+CMD ["python", "backend/app.py"]
