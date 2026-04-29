@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 5000
 
 # Run the Flask app with gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "120", "--workers", "4", "backend.app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--timeout", "120", "--workers", "4", "wsgi:app"]
