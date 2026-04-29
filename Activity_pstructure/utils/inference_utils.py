@@ -27,15 +27,33 @@ def _patch_numpy_bitgenerator_unpickle():
 def load_csv(path):
     return pd.read_csv(path)
 
+def _safe_load(path):
+    _patch_numpy_bitgenerator_unpickle()
+    try:
+        return joblib.load(path)
+    except Exception as exc:
+        msg = str(exc)
+        rng_state_error = (
+            "MT19937" in msg
+            or "BitGenerator" in msg
+            or "legacy MT19937 state" in msg
+        )
+        if rng_state_error:
+            try:
+                import cloudpickle
+                with open(path, "rb") as file_obj:
+                    return cloudpickle.load(file_obj)
+            except Exception:
+                pass
+        raise
+
 
 def load_transformer(path):
-    _patch_numpy_bitgenerator_unpickle()
-    return joblib.load(path)
+    return _safe_load(path)
 
 
 def load_model(path):
-    _patch_numpy_bitgenerator_unpickle()
-    return joblib.load(path)
+    return _safe_load(path)
 
 
 def transform_data(df, transformer):

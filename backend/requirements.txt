@@ -6,6 +6,7 @@ numpy==1.26.4
 pandas==2.2.0
 scikit-learn==1.5.2
 joblib==1.4.2
+cloudpickle==3.1.1
 
 # Web Framework
 Flask==3.0.0
