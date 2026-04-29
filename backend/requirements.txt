@@ -2,8 +2,8 @@
 # Generated from: pip freeze
 
 # ML & Data Processing
-numpy==1.24.3
-pandas==2.0.3
+numpy==1.26.4
+pandas==2.2.0
 scikit-learn==1.5.2
 joblib==1.4.2
 
