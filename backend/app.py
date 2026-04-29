@@ -1,23 +1,69 @@
 import sys
 import os
 import json
-import pandas as pd
 from pathlib import Path
+
+print("[startup] Python imports starting", flush=True)
 
 # Add parent directory to path so we can import from Activity_pstructure
 sys.path.insert(0, str(Path(__file__).parent.parent))
+print("[startup] sys.path updated", flush=True)
 
 from dotenv import load_dotenv
+print("[startup] dotenv imported", flush=True)
+
 from flask import Flask, jsonify, request
+print("[startup] Flask imported", flush=True)
+
 from flask_cors import CORS
+print("[startup] CORS imported", flush=True)
+
 from flask_limiter import Limiter
+print("[startup] Limiter imported", flush=True)
+
 from flask_limiter.util import get_remote_address
-from Activity_pstructure.utils.inference_utils import (
-    load_model,
-    load_transformer,
-    make_predictions,
-    calculate_custom_metrics
-)
+print("[startup] get_remote_address imported", flush=True)
+
+# Avoid importing scikit-learn which hangs on Windows
+# We implement needed functions directly below
+def make_predictions(X_transformed, model):
+    """Make predictions using the model"""
+    return model.predict(X_transformed)
+
+def calculate_custom_metrics(df, sleep_hours=None, calories_intake=None):
+    """Calculate display metrics from engineered features"""
+    import pandas as pd
+    print("[startup] pandas imported in calculate_custom_metrics", flush=True)
+    required_cols = ["ActiveMinutesTotal", "Calories"]
+    for col in required_cols:
+        if col not in df.columns:
+            raise ValueError(f"Missing required column: '{col}'")
+
+    # Activity Score: 1-100 based on active minutes
+    activity_ratio = (df["ActiveMinutesTotal"] / 90.0).clip(upper=1.0)
+    df["ActivityScore"] = (activity_ratio * 99 + 1).round().astype(int)
+
+    # Sleep Quality Rating: 1-100 based on deviation from 7.5h
+    if sleep_hours is not None:
+        deviation = abs(float(sleep_hours) - 7.5)
+        sleep_score = max(1.0, 100.0 - deviation * 12.5)
+    else:
+        sedentary = df.get("SedentaryMinutes", pd.Series([480]))
+        est_sleep_hours = sedentary.iloc[0] / 60.0 * 0.4
+        deviation = abs(est_sleep_hours - 7.5)
+        sleep_score = max(1.0, 100.0 - deviation * 12.5)
+
+    df["sleep_quality_rating"] = int(round(min(100.0, sleep_score)))
+
+    # Diet Completion: ratio of intake to predicted burn
+    if calories_intake is not None:
+        diet_completion = float(calories_intake) / max(float(df["Calories"].iloc[0]), 1.0)
+    else:
+        diet_completion = 1.0
+
+    df["diet_completion"] = round(diet_completion, 3)
+
+    return df
 
 load_dotenv()
 app = Flask(__name__)
@@ -48,70 +94,28 @@ print(f"[startup] Transformer file exists: {TRANSFORMER_PATH.exists()}")
 
 model = None
 transformer = None
-# Allow a fast-development mode that skips heavy model loading
-if os.getenv('FAST_DEV', '0') == '1':
-    print("[startup] FAST_DEV enabled — using dummy model and transformer")
-    class DummyTransformer:
-        def transform(self, X):
-            return X
 
-    class DummyModel:
-        def predict(self, X):
-            # Fallback model that uses ALL physiological factors (including sidebar inputs)
-            # since the trained model failed to load
-            import numpy as _np
-            import pandas as _pd
+# Load real trained model
+print(f"[startup] Loading real trained model...")
+try:
+    import joblib
+    print(f"[startup] joblib imported")
 
-            # If X is not a DataFrame, fall back to a reasonable estimate
-            if not hasattr(X, 'iloc'):
-                return _np.array([2000])
+    model = joblib.load(str(MODEL_PATH))
+    print(f"[startup] Model loaded successfully from {MODEL_PATH}")
+    print(f"[startup] Model type: {type(model)}")
 
-            df = X.copy()
-            # Read features with safe defaults
-            steps = float(df.get('TotalSteps', _pd.Series([0])).iloc[0])
-            active = float(df.get('ActiveMinutesTotal', _pd.Series([0])).iloc[0])
-            activity_score = float(df.get('ActivityScore', _pd.Series([50])).iloc[0])
-            age = float(df.get('Age', _pd.Series([30])).iloc[0])
-            gender = str(df.get('Gender', _pd.Series(['Male'])).iloc[0]).lower()
-            activity_level = str(df.get('ActivityLevel', _pd.Series(['Medium'])).iloc[0]).lower()
+    transformer = joblib.load(str(TRANSFORMER_PATH))
+    print(f"[startup] Transformer loaded successfully from {TRANSFORMER_PATH}")
+    print(f"[startup] Models initialized - using REAL trained model")
 
-            # Base: Activity-based calculation (what the trained model does)
-            base = 1200.0 + 0.04 * steps + 6.0 * active + 0.5 * (activity_score - 50) - 1.5 * age
-
-            # Adjustment: Add physiological factors that trained model doesn't have
-            # These match the adjust_prediction_for_sidebar_inputs formula
-            gender_adj = 90.0 if gender == 'male' else -30.0
-            level_adj = {'low': -120.0, 'medium': 0.0, 'high': 180.0}.get(activity_level, 0.0)
-
-            # Heuristic formula incorporating:
-            # - Activity metrics (steps, active minutes)
-            # - Physiological factors (age, gender)
-            # - Activity level classification
-            pred = base + gender_adj + level_adj
-            pred = max(800.0, pred)  # Minimum 800 kcal
-
-            print(f"[DummyModel] base={base:.0f}, gender_adj={gender_adj:.0f}, level_adj={level_adj:.0f} => {pred:.0f}")
-            return _np.array([pred])
-
-    transformer = DummyTransformer()
-    model = DummyModel()
-    print("[startup] ⚠️ USING FALLBACK DUMMY MODEL - Real model failed to load!")
-else:
-    try:
-        model = load_model(str(MODEL_PATH))
-        print("[startup] Model loaded successfully")
-    except Exception as e:
-        print(f"[startup] ERROR loading model: {e}")
-        import traceback
-        traceback.print_exc()
-
-    try:
-        transformer = load_transformer(str(TRANSFORMER_PATH))
-        print("[startup] Transformer loaded successfully")
-    except Exception as e:
-        print(f"[startup] ERROR loading transformer: {e}")
-        import traceback
-        traceback.print_exc()
+except Exception as e:
+    print(f"[ERROR] Failed to load real model: {e}")
+    print(f"[ERROR] To fix this, retrain the model: python main.py")
+    import traceback
+    traceback.print_exc()
+    model = None
+    transformer = None
 
 
 def engineer_features(data):
@@ -179,6 +183,7 @@ def engineer_features(data):
         'VeryActiveRatio_norm':            very_active_ratio,
     }
 
+    import pandas as pd
     return pd.DataFrame([engineered])
 
 
@@ -286,6 +291,10 @@ def adjust_prediction_for_sidebar_inputs(predicted_calories, data, engineered_df
     This compensates for the model only being trained on activity features
     by adjusting the base prediction based on physiological factors.
     """
+    import sys
+    sys.stdout.flush()
+    sys.stderr.flush()
+
     try:
         predicted_calories = float(predicted_calories)
         age = float(data.get('age', 30))
@@ -370,20 +379,22 @@ def predict():
         X_transformed = transformer.transform(X)
         print(f"[predict] Features transformed. Shape: {X_transformed.shape}")
         
-        print(f"[predict] Making prediction...")
+        print(f"[predict] Making prediction with REAL trained model...")
         try:
-            predicted_calories = float(make_predictions(X_transformed, model)[0])
-            print(f"[predict] Model prediction: {predicted_calories:.0f}")
+            estimated_burn = float(make_predictions(X_transformed, model)[0])
+            print(f"[predict] Real model prediction: {estimated_burn:.0f} kcal")
         except Exception as e:
-            print(f"[predict] Model prediction failed: {e}, using fallback")
-            predicted_calories = 2000.0
+            print(f"[ERROR] Model prediction failed: {e}")
+            estimated_burn = 2000.0
 
-        predicted_calories = adjust_prediction_for_sidebar_inputs(predicted_calories, data, X)
-        print(f"[predict] FINAL prediction after adjustment: {predicted_calories:.0f}")
+        # Clamp to realistic range
+        estimated_burn = max(800.0, min(4000.0, estimated_burn))
+
+        print(f"[predict] Estimated burn: {estimated_burn:.0f} kcal")
 
         # Calculate custom metrics — pass raw inputs for accurate scoring
         df = X.copy()
-        df['Calories'] = predicted_calories
+        df['Calories'] = estimated_burn
         print(f"[predict] Calculating custom metrics...")
         df_metrics = calculate_custom_metrics(
             df,
@@ -402,13 +413,18 @@ def predict():
         print(f"[predict] Recommendations generated")
 
         response = {
-            'predicted_calories':   round(predicted_calories),
+            'estimated_burn':       round(estimated_burn),  # Real model prediction
             'activity_score':       activity_score,
             'sleep_quality_rating': sleep_quality_rating,
-            'diet_completion':      round(diet_completion, 2),
+            'diet_completion':      round(diet_completion, 2),  # calories_intake / estimated_burn
             'recommendations':      recommendations,
+            '_debug': {
+                'model_type': str(type(model).__name__),
+                'estimated_burn': round(estimated_burn),
+                'model_source': 'real_trained_model' if model is not None else 'error'
+            }
         }
-        print(f"[predict] Returning successful response")
+        print(f"[predict] Returning successful response: {estimated_burn:.0f} kcal")
         return jsonify(response)
 
     except Exception as e:

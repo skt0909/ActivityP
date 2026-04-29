@@ -38,6 +38,7 @@ function deriveActivityInputs(inputs) {
   return {
     age: inputs.age,
     gender: inputs.gender,
+    heart_rate,
     activity_level,
     total_steps,
     very_active_minutes,

@@ -76,11 +76,15 @@ function SleepScoreCard({ value }) {
 }
 
 function PredictedBurnCard({ value, unit }) {
+  const display = Number.isFinite(value)
+    ? (value >= 1000 ? `${(value / 1000).toFixed(1)}k` : `${Math.round(value)}`)
+    : '--'
+
   return (
     <div className="card-content burn-card">
       <div className="burn-value">
-        <div className="big-number">{(value / 1000).toFixed(1)}k</div>
-        {unit && <div className="unit">{unit} REMAINING</div>}
+        <div className="big-number">{display}</div>
+        <div className="unit">{unit || 'KCAL'} REMAINING</div>
       </div>
       <svg className="wave-decoration" viewBox="0 0 400 100" preserveAspectRatio="none">
         <defs>

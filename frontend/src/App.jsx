@@ -6,7 +6,7 @@ import './App.css'
 
 function App() {
   const [metrics, setMetrics] = useState({
-    predicted_calories:  0,
+    estimated_burn:      0,
     activity_score:      0,
     sleep_quality_rating: 0,
     diet_completion:     0,
@@ -81,7 +81,7 @@ function App() {
           />
           <MetricCard
             title="Predicted Burn"
-            value={metrics.predicted_calories}
+            value={metrics.estimated_burn}
             type="burn"
             icon="bolt"
             unit="KCAL"
