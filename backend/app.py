@@ -36,8 +36,29 @@ limiter = Limiter(
 MODEL_PATH = Path(__file__).parent.parent / 'model' / 'model.pkl'
 TRANSFORMER_PATH = Path(__file__).parent.parent / 'model' / 'transformer.pkl'
 
-model = load_model(str(MODEL_PATH))
-transformer = load_transformer(str(TRANSFORMER_PATH))
+print(f"[startup] Attempting to load model from: {MODEL_PATH}")
+print(f"[startup] Model file exists: {MODEL_PATH.exists()}")
+print(f"[startup] Attempting to load transformer from: {TRANSFORMER_PATH}")
+print(f"[startup] Transformer file exists: {TRANSFORMER_PATH.exists()}")
+
+model = None
+transformer = None
+
+try:
+    model = load_model(str(MODEL_PATH))
+    print("[startup] Model loaded successfully")
+except Exception as e:
+    print(f"[startup] ERROR loading model: {e}")
+    import traceback
+    traceback.print_exc()
+
+try:
+    transformer = load_transformer(str(TRANSFORMER_PATH))
+    print("[startup] Transformer loaded successfully")
+except Exception as e:
+    print(f"[startup] ERROR loading transformer: {e}")
+    import traceback
+    traceback.print_exc()
 
 
 def engineer_features(data):
@@ -208,6 +229,14 @@ def build_recommendations(activity_score, sleep_rating, diet_completion):
 @limiter.limit("100 per hour")
 def predict():
     """Predict calories and compute health metrics + dynamic recommendations."""
+    # Check if models loaded successfully
+    if model is None or transformer is None:
+        return jsonify({
+            'error': 'Models not loaded. Check deployment logs for details.',
+            'model_loaded': model is not None,
+            'transformer_loaded': transformer is not None
+        }), 503
+
     try:
         data = request.get_json()
 
