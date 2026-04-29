@@ -36,8 +36,27 @@ limiter = Limiter(
 MODEL_PATH = Path(__file__).parent.parent / 'model' / 'model.pkl'
 TRANSFORMER_PATH = Path(__file__).parent.parent / 'model' / 'transformer.pkl'
 
-model = load_model(str(MODEL_PATH))
-transformer = load_transformer(str(TRANSFORMER_PATH))
+print(f"[startup] MODEL_PATH      = {MODEL_PATH}  (exists={MODEL_PATH.exists()})")
+print(f"[startup] TRANSFORMER_PATH = {TRANSFORMER_PATH}  (exists={TRANSFORMER_PATH.exists()})")
+
+model = None
+transformer = None
+
+try:
+    model = load_model(str(MODEL_PATH))
+    print(f"[startup] model loaded successfully: {type(model)}")
+except Exception as e:
+    import traceback
+    print(f"[startup] ERROR loading model: {e}")
+    traceback.print_exc()
+
+try:
+    transformer = load_transformer(str(TRANSFORMER_PATH))
+    print(f"[startup] transformer loaded successfully: {type(transformer)}")
+except Exception as e:
+    import traceback
+    print(f"[startup] ERROR loading transformer: {e}")
+    traceback.print_exc()
 
 
 def engineer_features(data):
@@ -208,6 +227,16 @@ def build_recommendations(activity_score, sleep_rating, diet_completion):
 @limiter.limit("100 per hour")
 def predict():
     """Predict calories and compute health metrics + dynamic recommendations."""
+    if model is None or transformer is None:
+        missing = []
+        if model is None:
+            missing.append("model")
+        if transformer is None:
+            missing.append("transformer")
+        msg = f"Server failed to load required artifact(s) at startup: {', '.join(missing)}. Check the deployment logs for the root cause."
+        print(f"[predict] Rejecting request — {msg}")
+        return jsonify({'error': msg}), 503
+
     try:
         data = request.get_json()
 
