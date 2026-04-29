@@ -2,16 +2,39 @@
 import pandas as pd
 import joblib
 
+def _patch_numpy_bitgenerator_unpickle():
+    """
+    Compatibility patch for artifacts pickled with older/newer NumPy variants
+    where BitGenerator is encoded as a class object instead of a name string.
+    """
+    try:
+        import numpy.random._pickle as np_pickle  # type: ignore
+    except Exception:
+        return
+
+    original_ctor = getattr(np_pickle, "__bit_generator_ctor", None)
+    if original_ctor is None:
+        return
+
+    def _compat_ctor(bit_generator_name="MT19937"):
+        if isinstance(bit_generator_name, type):
+            bit_generator_name = bit_generator_name.__name__
+        return original_ctor(bit_generator_name)
+
+    np_pickle.__bit_generator_ctor = _compat_ctor
+
 
 def load_csv(path):
     return pd.read_csv(path)
 
 
 def load_transformer(path):
+    _patch_numpy_bitgenerator_unpickle()
     return joblib.load(path)
 
 
 def load_model(path):
+    _patch_numpy_bitgenerator_unpickle()
     return joblib.load(path)
 
 
