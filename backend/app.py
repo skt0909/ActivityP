@@ -229,6 +229,7 @@ def build_recommendations(activity_score, sleep_rating, diet_completion):
 @limiter.limit("100 per hour")
 def predict():
     """Predict calories and compute health metrics + dynamic recommendations."""
+    print("[route] /predict handler invoked — route is registered and reachable")
     # Check if models loaded successfully
     if model is None or transformer is None:
         return jsonify({
@@ -285,4 +286,7 @@ def predict():
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
+    print(f"[startup] Flask app starting on port {port}")
+    print(f"[startup] Flask app object: {app}")
+    print(f"[startup] Registered routes: {[str(rule) for rule in app.url_map.iter_rules()]}")
     app.run(host='0.0.0.0', port=port, debug=False)
