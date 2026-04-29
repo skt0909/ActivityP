@@ -23,6 +23,8 @@ print("[startup] Limiter imported", flush=True)
 
 from flask_limiter.util import get_remote_address
 print("[startup] get_remote_address imported", flush=True)
+from Activity_pstructure.utils.inference_utils import load_model, load_transformer
+print("[startup] inference_utils imported", flush=True)
 
 # Avoid importing scikit-learn which hangs on Windows
 # We implement needed functions directly below
@@ -98,14 +100,11 @@ transformer = None
 # Load real trained model
 print(f"[startup] Loading real trained model...")
 try:
-    import joblib
-    print(f"[startup] joblib imported")
-
-    model = joblib.load(str(MODEL_PATH))
+    model = load_model(str(MODEL_PATH))
     print(f"[startup] Model loaded successfully from {MODEL_PATH}")
     print(f"[startup] Model type: {type(model)}")
 
-    transformer = joblib.load(str(TRANSFORMER_PATH))
+    transformer = load_transformer(str(TRANSFORMER_PATH))
     print(f"[startup] Transformer loaded successfully from {TRANSFORMER_PATH}")
     print(f"[startup] Models initialized - using REAL trained model")
 
